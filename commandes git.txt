@@ -1,0 +1,8 @@
+git clone git@github.com:ousrah/dev203_24.git
+git pull
+
+
+ssh-keygen -t rsa -C "ousrah@gmail.com"
+git add .
+git commit -m "readme"
+git push
