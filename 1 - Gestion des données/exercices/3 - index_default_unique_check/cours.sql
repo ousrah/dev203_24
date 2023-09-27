@@ -10,7 +10,7 @@ alter table test add index (ville);
 
 #ajout d'in index avec create index
 alter table test add telephone varchar(50);
-create index ids_tel on test(telephone);
+create index idx_tel on test(telephone);
 
 #insertion et selection
 insert into test (libelle,ville,telephone) values ('a','tetouan','0615125487');
@@ -40,10 +40,12 @@ select * from test;
 
 #creation d'une table avec un champs qui a une valeur par defaut
 drop table if exists test;
-create table test (id int auto_increment primary key, libelle varchar(50), ville varchar(50) default 'tetouan');
+create table test (id int auto_increment primary key, 
+libelle varchar(50), 
+ville varchar(50) default 'tetouan');
 
 #insertion sans saisie du champs qui a la valeur par defaut
-insert into test (libelle) values ('a');
+insert into test (libelle) values ('c');
 
 #insertion avec saisie du champs qui a la valeur par defaut
 insert into test (libelle,ville) values ('a','tanger');
@@ -56,7 +58,9 @@ alter table test add pays varchar(50);
 alter table test alter pays set default 'maroc';
 
 #creation d'un nouveau champs avec précision de la valeur par defaut.
-alter table test add lanugage varchar(50) default 'arabe';
+alter table test add language varchar(50) default 'arabe';
+
+
 
 ###############################################
 #####  UNIQUE
@@ -68,8 +72,8 @@ drop table if exists societe;
 
 create table societe (id int auto_increment primary key,
 raison_sociale varchar(100) unique);
-insert into societe (raison_sociale) values ('meditel');
-insert into societe (raison_sociale) values ('wana');
+insert into societe (raison_sociale) values ('orange');
+insert into societe (raison_sociale) values ('inwi');
 insert into societe (raison_sociale) values ('iam');
 
 ##erreur
@@ -95,7 +99,7 @@ drop table  if exists produit;
 
 #creation d'un table avec une régle de validation sur le prix
 create table produit (id int auto_increment primary key,
-designation varchar(100) unique, prix double check (prix >0));
+designation varchar(100) unique, prix double check (prix >0 ));
 
 #tests d'insertion
 insert into produit(designation,prix) values ('pc',3500);
@@ -104,11 +108,13 @@ insert into produit(designation,prix) values ('imprimante',-500);
 #supprimer la règle de validation
 alter table produit drop constraint produit_chk_1;
 
+select * from produit;
+
 #ajout d'un régle de validation désactivée
 alter table produit add constraint produit_chk_1 check (prix>0) not enforced;
 
 #test d'insertion
-insert into produit(designation,prix) values ('imprimante',-500);
+insert into produit(designation,prix) values ('scanner',-500);
 
 select * from produit;
 
@@ -119,7 +125,7 @@ alter table produit drop constraint produit_chk_1;
 alter table produit add constraint produit_chk_1 check (prix>0)  enforced;
 
 #reparation des données
-update produit set prix = 500 where id = 2;
+update produit set prix = 500 where prix < 0;
 
 #ajout d'une règle de validation activée
 alter table produit add constraint produit_chk_1 check (prix>0)  enforced;
