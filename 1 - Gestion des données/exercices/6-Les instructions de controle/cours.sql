@@ -114,6 +114,7 @@ delimiter ;
 
 select comparaison(13,13);
 
+Rappel mathématique equation premier degrès
 Ax+B=0
 x= -B/A
 
@@ -126,7 +127,7 @@ Si A = 0 et B != 0
   X = -B/A
   
   
-  
+  Rappel mathématique equation deuxième degrès
 Ax²+Bx+C = 0
 
 A=0 et B=0 et C=0
