@@ -336,20 +336,153 @@ delimiter ;
 select somme(5);
 select somme(0);
 
-ecrire une fonction qui permet de faire la somme des n premier entier paires (utiliser une incremetation par 1 et le modulo)
+#ecrire une fonction qui permet de faire la somme des n premier entier paires 
+#(utiliser une incremetation par 1 et le modulo)
+drop function if exists sommeP;
+delimiter $$
+	create function sommeP(n int)
+		returns int
+	deterministic
+    begin
+		declare s int default 0;
+        declare i int default 1;
+        while i <= n do
+			if i % 2 = 0 then 
+				set s = s + i;
+			end if;
+            set i = i +1;
+		end while;
+        return s;
+    end $$
+delimiter ;
+select sommeP(10);
 
-loop
-while
-repeat
+drop function sommeP1;
+delimiter $$
+	create function sommeP1(n int)
+		returns int
+	deterministic
+    begin
+		declare s int default 0;
+        declare i int default 1;
+        repeat 
+			if i % 2 = 0 then 
+				set s = s + i;
+			end if;
+            
+            set i = i +1;
+		until i > n
+        end repeat;
+        return s;
+    end $$
+delimiter ;
 
-for(i=1;i<10;i++)
-{
+drop function if exists sommeP2;
+delimiter $$
+	create function sommeP2(n int)
+		returns int
+	deterministic
+    begin
+		declare s int default 0;
+        declare i int default 1;
+        loop1 : loop 
+			if i % 2 = 0 then 
+				set s = s + i;
+			end if;
+            set i = i+1;
+            if i>n then
+				leave loop1;
+			end if ;
+		
+        end loop loop1;
+        return s;
+    end $$
+delimiter ;
 
 
-}
+select sommeP2(10);
+
+
+#ecrire une fonction qui returne le factoriel d'un entier
+
+
+drop function if exists factoriel;
+delimiter $$
+create function factoriel(n int)
+returns varchar(50)
+deterministic
+begin
+declare result bigint default 1;
+declare counter int default 1;
+if n < 0 then
+	return  "impossible";
+else
+	while (counter <= n) do
+		set result = counter * result;
+		set counter = counter + 1;
+	end while;
+return result;
+end if; 
+
+end$$
+delimiter ;
+
+select factoriel(-5);
+select factoriel(0);
+select factoriel(5);
 
 
 
+drop function if exists factorielR;
+delimiter $$
+create function factorielR(n int) # 5 4 3 2
+	returns varchar(50)
+	deterministic
+	begin
+	declare result bigint default 1;    #1 120
+	if n > 1 then
+		set result = n * factorielR(n-1);
+	end if	;
+	return result;
+end$$
+delimiter ;
+
+
+select factorielR(5);
+
+use librairie_201;
+
+
+select * from tarifer;
+
+select * from ecrivain;
+
+select avg(t.prixvente) from ecrivain ec
+inner join ecrire e on ec.numecr = e.numecr
+inner join tarifer t on e.numouvr  =  t.numouvr
+where prenomecr = 'F.' and nomecr=	'ARNOUD';
+
+drop function if exists moyennePrixParEcrivain;
+delimiter $$
+create function moyennePrixParEcrivain(nom varchar(50), prenom varchar(50))
+returns float
+Reads SQL DATA
+begin
+	declare moy float;
+    select avg(t.prixvente) into moy from ecrivain ec
+inner join ecrire e on ec.numecr = e.numecr
+inner join tarifer t on e.numouvr  =  t.numouvr
+where prenomecr = prenom and nomecr=	nom;
+
+return moy;
+end $$
+delimiter ;
+
+
+
+
+
+select moyennePrixParEcrivain('ARNOUD','F.');
 
 
 
