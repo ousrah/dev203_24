@@ -283,4 +283,178 @@ select e4(1);
 #5.	Ecrire une fonction table qui retourne le nombre des pilotes dont le salaire est inférieur à une valeur passée comme paramètre ;
 
 
+/*
+Exercice 4:
+Considérant la base de données suivante :
+DEPARTEMENT (ID_DEP, NOM_DEP, Ville)
+EMPLOYE (ID_EMP, NOM_EMP, PRENOM_EMP, DATE_NAIS_EMP, SALAIRE,#ID_DEP)
+*/
+
+
+drop database if exists employes_201;
+
+create database employes_201 COLLATE "utf8_general_ci";
+use employes_201;
+
+
+create table DEPARTEMENT (
+ID_DEP int auto_increment primary key, 
+NOM_DEP varchar(50), 
+Ville varchar(50));
+
+create table EMPLOYE (
+ID_EMP int auto_increment primary key, 
+NOM_EMP varchar(50), 
+PRENOM_EMP varchar(50), 
+DATE_NAIS_EMP date, 
+SALAIRE float,
+ID_DEP int ,
+constraint fkEmployeDepartement foreign key (ID_DEP) references DEPARTEMENT(ID_DEP));
+
+insert into DEPARTEMENT (nom_dep, ville) values 
+		('FINANCIER','Tanger'),
+		('Informatique','Tétouan'),
+		('Marketing','Martil'),
+		('GRH','Mdiq');
+
+insert into EMPLOYE (NOM_EMP , PRENOM_EMP , DATE_NAIS_EMP , SALAIRE ,ID_DEP ) values 
+('said','said','1990/1/1',8000,1),
+('hassan','hassan','1990/1/1',8500,1),
+('khalid','khalid','1990/1/1',7000,2),
+('souad','souad','1990/1/1',6500,2),
+('Farida','Farida','1990/1/1',5000,3),
+('Amal','Amal','1990/1/1',6000,4),
+('Mohamed','Mohamed','1990/1/1',7000,4);
+
+select * from employe;
+
+#1.	Créer une fonction qui retourne le nombre d’employés
+drop function if exists q1;
+delimiter $$
+create function q1()
+returns int
+reads sql data
+begin
+    return  (select count(*)  from employe);
+end $$
+delimiter ;
+
+select q1();
+#2.	Créer une fonction qui retourne la somme des salaires de tous les employés
+delimiter $$
+create function q2()
+returns int
+reads sql data
+begin
+    return  (select sum(SALAIRE)  from employe);
+end $$
+delimiter ;
+
+select q2();
+#3.	Créer une fonction pour retourner le salaire minimum de tous les employés
+delimiter $$
+create function q3()
+returns int
+reads sql data
+begin
+    return  (select min(SALAIRE)  from employe);
+end $$
+delimiter ;
+
+select q3();
+#4.	Créer une fonction pour retourner le salaire maximum de tous les employés
+delimiter $$
+create function q4()
+returns int
+reads sql data
+begin
+    return  (select max(SALAIRE)  from employe);
+end $$
+delimiter ;
+
+select q4();
+#5.	En utilisant les fonctions créées précédemment, 
+#Créer une requête pour afficher le nombre des employés, 
+#la somme des salaires, le salaire minimum et le salaire maximum
+
+select q1() as nombreEMP,
+		q2() as sommeSalaire,
+        q3() as minsalaire,
+        q4() as maxsalaire;
+
+#6.	Créer une fonction pour retourner le nombre d’employés d’un département donné.
+delimiter $$
+create function q6(id int)
+returns int
+reads sql data
+begin
+    return  (select count(*)  from employe
+					where ID_DEP=id);
+end $$
+delimiter ;
+select q6(1);
+#7.	Créer une fonction la somme des salaires des employés d’un département donné
+delimiter $$
+create function q7(id int)
+returns float
+reads sql data
+begin
+    return  (select sum(salaire)  from employe
+					where ID_DEP=id);
+end $$
+delimiter ;
+select q7(1);
+
+
+
+#8.	Créer une fonction pour retourner le salaire minimum des employés d’un département donné
+drop function if exists q8;
+delimiter $$
+create function q8(id int)
+returns float
+reads sql data
+begin
+    return  (select min(salaire)  from employe
+					where ID_DEP=id);
+end $$
+delimiter ;
+select q8(1);
+#9.	Créer une fonction pour retourner le salaire maximum des employés d’un département.
+drop function if exists q9;
+delimiter $$
+create function q9(id int)
+returns float
+reads sql data
+begin
+    return  (select max(salaire)  from employe
+					where ID_DEP=id);
+end $$
+delimiter ;
+select q9(1);
+#10.	En utilisant les fonctions créées précédemment, Créer une requête pour afficher pour les éléments suivants : 
+#a.	Le nom de département en majuscule. 
+#b.	La somme des salaires du département
+#c.	Le salaire minimum
+#d.	Le salaire maximum
+
+select upper(nom_dep) as nom_departement, 
+        q7(id_dep) as somme_salaires,
+        q8(id_dep) as salaire_minimale,
+        q9(id_dep) as salaire_maximale
+from departement;
+
+
+#11.	Créer une fonction qui accepte comme paramètres 2 chaines 
+#de caractères et elle retourne les deux chaines en majuscules concaténé 
+#avec un espace entre eux.
+drop function if exists q11;
+delimiter $$
+create function q11(chaine1 varchar(255) ,chaine2 varchar(255)) 
+returns varchar(255)
+deterministic
+begin
+    return  (concat(upper(chaine1),' ',upper(chaine2)));
+end $$
+delimiter ;
+select q11('chaine1','chaine2') ;
 
