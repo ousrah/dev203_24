@@ -178,15 +178,59 @@ delimiter ;
 call q5(2);
 
 
-#6) Ecrire un trigger Q6 qui permet d’incrémenter de 1, le champ nombreVoix d’un candidat à chaque ajout d’une ligne à la table Votes qui concerne ce candidat. Le trigger doit également mettre le champ aVoté à 1 pour l’électeur qui vient de voter. (2 pts)
+#6) Ecrire un trigger Q6 qui permet d’incrémenter de 1,
+# le champ nombreVoix d’un candidat à chaque ajout d’une ligne à la table Votes
+# qui concerne ce candidat.
+# Le trigger doit également mettre le champ aVoté à 1 pour l’électeur qui vient de voter. (2 pts)
 
+drop trigger if exists q6;
+delimiter $$
+create trigger q6 after insert on votes for each row
+	begin
+		update candidat set nombreVoix = nombreVoix + 1 where idCandidat = new.idCandidat;
+        update electeur set aVote = 1 where idElecteur = new.idElecteur;
+    end $$
+delimiter ;
 
-#7) Ecrire une procédure stockée Q7 qui permet d’enregistrer le vote d’un électeur ; 
+select * from votes;
+insert into votes value (4,2);
+select * from candidat;
+select * from electeur;
+#7) Ecrire une procédure stockée Q7 qui permet d’enregistrer le vote 
+#d’un électeur ; 
 
 
 #Cette procédure sera appelée comme suit :   call Q7 (130,120,300,null)
 #elle a les paramètres : 
 #•	idElect : identifiant de l’électeur. (130 dans notre exemple)
-#•	idCandidat1 (120), idCandidat2(300) et idCandidat3(null) : identifiants des 3 candidats choisis par l’électeur.
-#La procédure ajoute 1 à 3 lignes à la table Votes selon les valeurs non NULL des paramètres idCandidat1, idCandidat2 et idCandidat3.
+#•	idCandidat1 (120), idCandidat2(300) et idCandidat3(null) : 
+#identifiants des 3 candidats choisis par l’électeur.
+#La procédure ajoute 1 à 3 lignes à la table Votes selon les valeurs 
+#non NULL des paramètres idCandidat1, idCandidat2 et idCandidat3.
 #Si ces paramètres sont tous NULL, la procédure affiche un message d’erreur. (2 pts)
+drop procedure if exists q7 ;
+Delimiter //
+create procedure q7(ide int ,idc1 int ,idc2 int ,idc3 int)
+begin
+	if (idc1 is null and idc2 is  null and idc3 is  null  ) then
+		select "Erreur" ;
+	else 
+			if idc1 is not null then
+				insert into votes values (ide,idc1);
+			end if;
+			if idc2 is not null then
+				insert into votes values (ide,idc2);
+            end if;    
+			if idc3 is not null then
+				insert into votes values (ide,idc3);
+			end if; 
+	end if ;
+								
+end //
+delimiter ;
+
+select * from electeur;
+
+call q7(6,1,2,null);
+
+select * from votes where idelecteur = 5;
