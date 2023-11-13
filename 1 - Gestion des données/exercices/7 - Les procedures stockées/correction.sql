@@ -444,4 +444,48 @@ call ps8(3);
 #Un message sous la forme : Sa méthode de préparation est : (Méthode)
 #Si le prix de reviens pour la recette est inférieur à 50 DH afficher le message
 #'Prix intéressant'
+select * from recettes;
+drop procedure if exists ps9;
+delimiter $$
+create procedure ps9()
+begin
+	  declare messageRecette varchar(250);
+  declare methode varchar(250);
 
+    
+	declare flag1 boolean default false ;
+    declare idrecette int;
+    declare prix float;
+    declare c1 cursor for select NumRec,methodePreparation, concat('Recette : (',NomRec,'), temps de préparation : (',TempsPreparation,')') from recettes;
+    declare continue handler for not found set flag1 = true;
+    open c1 ;
+		b1 :loop 
+			fetch c1 into idrecette,methode, messageRecette ;
+            if flag1 then 
+				leave b1;
+			else
+				select messageRecette;
+				select i.NomIng,c.QteUtilisee
+												from ingredients i
+												join composition_recette c 
+												on i.NumIng = c.NumIng
+                                                where c.NumRec = idrecette;
+				select methode;
+                select sum(PUIng*QteUtilisee) into prix from  ingredients i
+												join composition_recette c 
+												on i.NumIng = c.NumIng
+                                                where c.NumRec = idrecette;
+				if prix <50 then
+					select "Prix interessant" as prix;
+				end if;
+                
+            end if ;
+        end loop b1;
+    close c1;
+end$$
+delimiter ;
+
+call  ps9();
+
+select * from ingredients;
+update ingredients set PUIng = 1;

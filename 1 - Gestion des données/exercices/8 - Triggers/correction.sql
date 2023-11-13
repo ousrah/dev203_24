@@ -225,3 +225,32 @@ SELECT SUM(i.PUIng * c.QteUtilisee)
 FROM ingredients i
 JOIN composition_recette c ON c.NumIng = i.NumIng
 where c.NumRec = 1;
+select * from composition_recette;
+drop trigger if exists changePrice;
+delimiter $$
+create trigger changePrice after update on ingredients for each row
+begin
+	declare nr int;
+    declare p float;
+    declare flag boolean default false;
+    declare c1 cursor for select distinct numRec from composition_recette where numIng = new.numIng;
+    declare continue handler for not found set flag = true;
+    open c1;
+		b1:loop
+			fetch c1 into nr;
+            if flag then
+				leave b1;
+			end if;
+            select sum(PuIng*qteutilisee) into p from composition_recette cr join ingredients i on cr.numing=i.numing where numrec = nr;
+            update recettes set prix = p where numrec = nr;
+        end loop b1;
+    close c1;
+end $$
+delimiter ;
+
+
+select * from recettes;
+
+select * from ingredients;
+update ingredients set PUIng = 10 where numing=1;
+
