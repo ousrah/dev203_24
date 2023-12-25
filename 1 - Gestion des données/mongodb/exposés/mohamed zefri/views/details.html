@@ -1,0 +1,52 @@
+<!-- 
+    for viewing article details
+    This page displays the details of a specific article,
+    including the title and summary.
+    Users can also delete the article directly from this page.
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+{% include "./partials/head.html" %}
+
+<body>
+    {% include "./partials/header.html" %}
+
+    <h1>
+        {{ objArticle.title }}
+    </h1>
+
+    <p style="font-size: 19px; margin: 5em">
+        {{ objArticle.content }}
+    </p>
+
+    <button data-linkid="{{ objArticle['_id'] }}" class="create">
+        Delete this article
+    </button>
+
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+
+    {% include "./partials/footer.html" %}
+
+    <script>
+        const btnelement = document.querySelector(".create");
+        const articleId = btnelement.getAttribute("data-linkid");
+
+        btnelement.addEventListener("click", (eo) => {
+            fetch(`/all-articles/${articleId}`, { method: "DELETE" })
+                .then((response) => response.json())
+                .then((data) => window.location.href = data.mylink)
+                .catch((err) => {
+                    console.log(err);
+                });
+        });
+    </script>
+</body>
+
+</html>

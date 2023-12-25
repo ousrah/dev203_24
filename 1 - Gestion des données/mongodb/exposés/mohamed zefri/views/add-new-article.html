@@ -1,0 +1,36 @@
+<!-- 
+    for creating new articles
+    This is where users can create new articles.
+    I made input fields for the title, summary, and body of the article.
+-->
+
+<!DOCTYPE html>
+
+<html lang="ar">
+    {% include "./partials/head.html" %}
+
+<body id="body">
+    {% include "./partials/header.html" %}
+
+    <main id="main">
+        <section>
+            <h1>Create new article</h1>
+
+        <form method="POST" action="{{ url_for('create_article') }}">
+            <label for="title">Article title: </label>
+            <input name="title" id="title" type="text" />
+
+            <label for="summary">Article summary: </label>
+            <input name="summary" id="summary" type="text" />
+
+            <label for="body">Article body:</label>
+            <textarea name="body" id="body"></textarea>
+
+            <button class="create">create</button>
+        </form>
+        </section>
+    </main>
+
+    {% include "./partials/footer.html" %}
+</body>
+</html>

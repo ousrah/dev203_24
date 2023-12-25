@@ -1,0 +1,42 @@
+<!--
+    for displaying articles
+    This is the main page of our app where users can see the articles
+-->
+
+<!DOCTYPE html>
+
+<html lang="ar">
+{% include "./partials/head.html" %}
+
+<body id="body">
+    {% include "./partials/header.html" %}
+
+    <main id="main">
+        <section>
+            <h1>Added Articles</h1>
+
+            <div class="parent-of-articles">
+                {% if arrArticle %}
+                    {% for item in arrArticle %}
+                        <article>
+                            <h2>{{ item.title }}</h2>
+                            <p>{{ item.summary }}
+                                <a class="btn" href="/all-articles/{{ item['_id'] }}">show more</a>
+                            </p>
+                        </article>
+                    {% endfor %}
+                {% else %}
+                    <p style="font-size: 19px; font-weight: bold; margin: 30px 0; color: gray;">
+                        There is no articles now. You can add some ☺
+                    </p>
+                {% endif %}
+            </div>
+
+
+        </section>
+    </main>
+
+    {% include "./partials/footer.html" %}
+</body>
+
+</html>
