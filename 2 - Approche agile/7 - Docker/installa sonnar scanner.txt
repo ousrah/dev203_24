@@ -1,0 +1,1 @@
+npm install -g sonarqube-scanner@3.0.1
