@@ -1,0 +1,17 @@
+Créez les models User, Role,  Post, Article, Comment, Phone et définie les relations selon le modèle relationnel suivant : 
+
+l'utilisateur ne peut avoir q'un seul téléphone et le téléphone ne peut être affecté qu'a un seul utilisateur
+chaque utilisateur peut avoir plusieurs roles et le role peut être affecte a plusieurs utilisateurs
+chaque post peut avoir plusieurs commentaire et un commentaire peut concerner zero ou un post
+chaque article peut avoir plusieurs commentaire et un commentaire peut concerner zero ou un article
+chaque utilisateur peut ecrire plusieurs commentaire et un commentaire ne peut être ecris que par un et un utilisateur
+
+
+
+Users (id, name, email, password)
+Roles (id, name, description)
+UserRoles(user_id, role_id)
+Phones(id,number, user_id)
+Posts(id, title, description, image)
+Articles(id, title, description, image)
+Comments(id, comment, post_id, article_id, user_id)
