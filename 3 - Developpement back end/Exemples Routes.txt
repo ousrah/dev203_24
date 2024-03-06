@@ -4,7 +4,7 @@ Route::get('/', function () {
 });
 
 // Définir une route qui retourne une chaine
-Route::get('/hello', function ($id) {
+Route::get('/hello', function () {
     return "Hello
 });
 
