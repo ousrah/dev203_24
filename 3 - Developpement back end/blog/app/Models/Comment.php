@@ -11,6 +11,7 @@ class Comment extends Model
     protected $fillable = [
         'user_id',
         'post_id',
+        'article_id',
         'comment',
     ];
 
@@ -22,7 +23,7 @@ public function user()
 
 
 //relation to post
-public function commentable()
+public function commenttable()
 {
     return $this->morphTo();
 }

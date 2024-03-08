@@ -11,7 +11,7 @@ class Article extends Model
     protected $fillable = ['title', 'description', 'image'];
     public function comments()
     {
-        return $this->morphMany(Comment::class, 'commentable');
+        return $this->morphMany(Comment::class, 'commenttable');
     }
     
 }
