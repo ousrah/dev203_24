@@ -2,22 +2,25 @@
 
 namespace App\Models;
 
-use App\Models\Comment;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use PhpParser\NodeVisitor\CommentAnnotatingVisitor;
 
 class Post extends Model
 {
     use HasFactory;
-    protected $fillable = ['title', 'description', 'image'];
-    
- /**
- * Defines a relationship where a Post has many comments.
- */
-public function comments()
-{
-    return $this->morphMany(Comment::class, 'commenttable');
-}
+     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'title',
+        'description',
+        'image',
+    ];
 
-
+    public function comments(){
+        return $this->morphMany(Comment::class, 'commenttable');
+    }
 }

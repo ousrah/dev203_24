@@ -8,10 +8,19 @@ use Illuminate\Database\Eloquent\Model;
 class Article extends Model
 {
     use HasFactory;
-    protected $fillable = ['title', 'description', 'image'];
-    public function comments()
-    {
+
+      /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'title',
+        'description',
+        'image',
+    ];
+    
+    public function comments(){
         return $this->morphMany(Comment::class, 'commenttable');
     }
-    
 }

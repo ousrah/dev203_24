@@ -21,24 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-
     ];
-
-    public function phone()
-    {
-        return $this->hasOne(Phone::class);
-    }
-   
-    public function comments() 
-    {
-        return $this->hasMany(Comment::class);
-    }
-
-
-    public function roles()
-    {
-        return $this->hasMany(Role::class);
-    }
 
     /**
      * The attributes that should be hidden for serialization.
@@ -59,4 +42,10 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+public function phone(){
+    return $this->hasOne(Phone::class);}
+
+    public function roles(){
+        return $this->belongsToMany(Role::class);}
 }

@@ -2,8 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Models\User;
-use App\Models\Phone;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -19,8 +17,9 @@ class PhoneFactory extends Factory
     public function definition(): array
     {
         return [
-            'number' => fake()->phoneNumber,
-          
+            'phoneNumber' => fake()->phoneNumber,
+            //  'user_id' => User::factory()->create()->id,
+            //'user_id'=>$users->random()->id
         ];
     }
 }
