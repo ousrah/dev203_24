@@ -1,7 +1,8 @@
-...les indexes
+
 les validations
-...la gestion des utilisateurs
+la gestion des utilisateurs
 ...la connection de python su mongodb
+...les indexes
 
 la connection de php sur mongodb
 
@@ -34,14 +35,14 @@ https://getcomposer.org/Composer-Setup.exe
 
 
 -- vérifier l'installation de composer sur la ligne de commande
-c:\> composer --version
+c:\> composer -v
 
 -- créer le dossier du nouveau site
 C:\wamp64\www
--- creer le fichier composer.json vide
-{}
+
 
 -- installer le package mongodb/mongodb avec composer dans le nouveau site
+
 composer require mongodb/mongodb --ignore-platform-reqs
 
 
