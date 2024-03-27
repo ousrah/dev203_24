@@ -24,3 +24,5 @@ Route::resource('products', ProductController::class);
 Route::get('/test',[ProductController::class,'test'])->name('test');
 
 Route::post('/products/search',[ProductController::class,'search'])->name('products.search');
+
+Route::post('/products/delete',[ProductController::class,'delete'])->name('products.delete');

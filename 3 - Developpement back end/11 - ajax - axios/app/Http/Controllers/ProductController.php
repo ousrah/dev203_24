@@ -26,10 +26,16 @@ class ProductController extends Controller
     {
         $products = Product::where('name', 'like', '%' . request('search') . '%')
         ->orWhere('detail', 'like', '%' . request('search') . '%')
-        ->latest()->paginate(5);
+        ->get();
       
-        return view('products.search',compact('products'))
-                    ->with('i', (request()->input('page', 1) - 1) * 5);
+        return view('products.search',compact('products'));
+    }
+
+    public function delete(Request $request)
+    {
+        $product = Product::find($request->deleteId);
+        $product->delete();
+        return "ok";
     }
 
 
