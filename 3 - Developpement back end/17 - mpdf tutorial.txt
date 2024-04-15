@@ -1,0 +1,1 @@
+http://www.thecodingjack.com/creating-beautiful-documents-with-mpdf-and-laravel/
