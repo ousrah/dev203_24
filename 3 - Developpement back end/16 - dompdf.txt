@@ -1,0 +1,3 @@
+<img src="{{public_path('storage/students/'.$student->picture) }}" alt={{$student->name}} />
+
+https://dev.to/snehalkadwe/use-of-dompdf-in-laravel-10-opn
